@@ -1,0 +1,21 @@
+{
+    "name": "penicylline/php-essence",
+    "description": "Simple PHP framework",
+    "require": {
+        "php": ">=5.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hoai Bui",
+            "email": "penicylline@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PhpEssence\\": "src"
+        }
+    },
+
+    "minimum-stability": "dev"
+}

@@ -13,6 +13,11 @@ class Session extends Service {
         }
     }
 
+    public function __destruct()
+    {
+        session_commit();
+    }
+
     public function has($key) {
         return array_key_exists($key, $_SESSION);
     }

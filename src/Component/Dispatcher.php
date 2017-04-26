@@ -101,13 +101,13 @@ class Dispatcher extends Service {
                     if (!isset($matches['controller'])) {
                         throw new DispatcherException('Route not found for request: ' . $this->getRequestUri());
                     }
-                    $route['controller'] = $matches['controller'];
+                    $route['controller'] = $this->cammelizeFilter($matches['controller']);
                 }
                 if (!isset($route['action'])) {
                     if (!isset($matches['action'])) {
                         $matches['action'] = 'index';
                     }
-                    $route['action'] = $matches['action'];
+                    $route['action'] = $this->cammelizeFilter($matches['action']);
                 }
                 return $route;
             }
@@ -121,5 +121,18 @@ class Dispatcher extends Service {
     public function isWebApp()
     {
         return php_sapi_name() != 'cli';
+    }
+
+    private function cammelizeFilter($name)
+    {
+        if (strpos($name, '-') === false) {
+            return $name;
+        }
+        $words = explode('-', $name);
+        $newName = $words[0];
+        for ($i = 1; $i < count($words); $i++) {
+            $newName .= ucfirst($words[$i]);
+        }
+        return $newName;
     }
 }

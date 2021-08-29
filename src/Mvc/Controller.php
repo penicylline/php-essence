@@ -27,11 +27,6 @@ abstract class Controller extends Service {
      */
     protected $dispatcher;
 
-    /**
-     * @var Security
-     */
-    protected $security;
-
     public function __construct() {
         parent::__construct();
         $this->request = $this->getRequest();

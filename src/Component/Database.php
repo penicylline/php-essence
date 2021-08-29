@@ -200,6 +200,9 @@ class Database {
             } else {
                 if ($value === null) {
                     $needs[] = $trimKey . ' IS NULL';
+                } if (is_array($value)) {
+                    $expr = $this->buildInExpresion($trimKey, $value, $conditions);
+                    $needs[] = $trimKey . ' IN ' . $expr;
                 } else {
                     $needs[] = $trimKey . ' = :' . $trimKey;
                     $conditions[':' . $trimKey] = $value;
@@ -208,6 +211,17 @@ class Database {
             unset($conditions[$key]);
         }
         return ' WHERE ' . implode(' AND ', $needs);
+    }
+
+    protected function buildInExpresion($field, $values, array &$conditions)
+    {
+        $params = [];
+        foreach ($values as $i => $value) {
+            $key = ':' . $field . $i;
+            $params[] = $key;
+            $conditions[$key] = $value;
+        }
+        return '(' . join(',', $params) . ')';
     }
 
     /**
